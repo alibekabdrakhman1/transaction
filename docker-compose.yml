@@ -1,36 +1,14 @@
-version: "3.9"
-
-volumes:
-  transaction-api_data:
+version: '3.8'
 
 services:
-  transaction-app:
+  app:
     build: ./
     command: ./app
     ports:
-      - "8586:8586"
-    volumes:
-      - .:/src
-    environment:
-      - GONOSUMDB=off
-      - TZ=Asia/Almaty
-      - POSTGRES_HOST=localhost
-      - POSTGRES_DB=onelab
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASS=253165alibek
-      - POSTGRES_PORT=5432
-    env_file:
-      - .env
-    depends_on:
-      - postgres
+      - "8081:8081"
+    networks:
+      - one_lab_backend
 
-  postgres:
-    image: postgres:13.2-alpine
-    volumes:
-      - transaction-api_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=onelab
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=253165alibek
-    ports:
-      - "5432:5432"
+networks:
+  one_lab_backend:
+    external: true
